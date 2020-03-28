@@ -43,6 +43,8 @@ class AudioFile extends React.Component {
       me.setState(state => ({
         audioUrl: URL.createObjectURL(audioBlob)
       }));
+      me.dispatchEvent("audioChange", "cunt!");
+      //this.props.onAudioChange(this.state.audioUrl);
     });
 
     this.mediaRecorder.addEventListener("start", () => {
