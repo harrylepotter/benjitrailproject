@@ -1,2 +1,0 @@
-# benjitrailproject
-Created with CodeSandbox
