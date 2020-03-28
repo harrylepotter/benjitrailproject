@@ -5,7 +5,7 @@ import { Button } from "@material-ui/core";
 class AudioFile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isRecording: false };
+    this.state = { isRecording: false, audioUrl: null };
     this.toggleRecord = this.toggleRecord.bind(this);
     this.initRecorder = this.initRecorder.bind(this);
     this.play = this.play.bind(this);
@@ -40,7 +40,9 @@ class AudioFile extends React.Component {
     this.mediaRecorder.addEventListener("stop", () => {
       console.log("stopped recording audio");
       const audioBlob = new Blob(audioChunks);
-      me.audioUrl = URL.createObjectURL(audioBlob);
+      me.setState(state => ({
+        audioUrl: URL.createObjectURL(audioBlob)
+      }));
     });
 
     this.mediaRecorder.addEventListener("start", () => {
@@ -67,7 +69,7 @@ class AudioFile extends React.Component {
     if (me.player != null) me.player.disconnect();
 
     me.player = new Pizzicato.Sound(
-      { source: "file", options: { path: me.audioUrl, loop: false } },
+      { source: "file", options: { path: me.state.audioUrl, loop: false } },
       function() {
         if (me.props.withEffects) {
           me.player.addEffect(me.tremolo);
@@ -88,7 +90,10 @@ class AudioFile extends React.Component {
         <Button color="primary" onClick={this.toggleRecord}>
           {this.state.isRecording ? "Stop" : "Record"}
         </Button>
-        <Button disabled={false} onClick={this.play}>
+        <Button
+          disabled={this.state.audioUrl == null || this.state.isRecording}
+          onClick={this.play}
+        >
           Play
         </Button>
       </div>
