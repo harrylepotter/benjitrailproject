@@ -22,6 +22,8 @@ class AudioFile extends React.Component {
       distortion: 1,
       mix: 1
     });
+
+    
   }
 
   componentDidMount() {
@@ -30,6 +32,14 @@ class AudioFile extends React.Component {
 
   async initRecorder() {
     let me = this;
+
+    let storedAudio = window.localStorage.getItem(me.props.tag);
+    if(storedAudio != null){
+      me.setState(state => ({
+        audioUrl: storedAudio
+      }));
+    }
+
     let audioChunks = [];
     this.mediaRecorder = new MediaRecorder(window.stream);
     console.log("mediarecorder=", this.mediaRecorder);
@@ -43,11 +53,20 @@ class AudioFile extends React.Component {
       me.setState(state => ({
         audioUrl: URL.createObjectURL(audioBlob)
       }));
+
+      var reader = new FileReader();
+      reader.readAsDataURL(audioBlob); 
+      reader.onloadend = function() {
+          var base64data = reader.result;                
+          window.localStorage.setItem(me.props.tag, base64data);
+      }
+
+      
       //this.props.onAudioChange(this.state.audioUrl);
     });
 
     this.mediaRecorder.addEventListener("start", () => {
-      console.log("started recording audio");
+      console.log("started recording audio"); 
       audioChunks = [];
     });
   }

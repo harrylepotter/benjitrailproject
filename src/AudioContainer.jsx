@@ -36,6 +36,7 @@ class AudioContainer extends React.Component {
   }
 
   handleAudioEvent() {
+    // take a look at the last few sentences. Is there an 'are you there'?
     this.setState(state => ({summoned: true}));
     this.timer.current.startTimer();
   }
@@ -98,11 +99,11 @@ class AudioContainer extends React.Component {
           onChange={this.formValueChange}
         />
         <p>Audio: Sorry, i was on mute. Can you repeat the question?</p>
-        <AudioFile ref={this.audio1} withEffects={false} />
+        <AudioFile tag={"one"} ref={this.audio1} withEffects={false} />
         <p>Hi, can you hear me?</p>
-        <AudioFile ref={this.audio2} withEffects={false} />
+        <AudioFile tag={"two"} ref={this.audio2} withEffects={false} />
         <p>Big long fuck it all</p>
-        <AudioFile ref={this.audio3} withEffects={true} />
+        <AudioFile tag={"three"} ref={this.audio3} withEffects={true} />
         <VoiceListener hotWord={this.state.name} onHotWord={this.handleAudioEvent} onSentences={this.handleSentences}/>
         
         <Dialog

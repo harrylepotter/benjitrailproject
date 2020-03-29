@@ -9,6 +9,7 @@ class VoiceListener extends React.Component {
       color: 'red',
     };
     this.checkForHotWord = this.checkForHotWord.bind(this);
+    
   }
 
   checkForHotWord(){
