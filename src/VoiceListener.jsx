@@ -3,21 +3,36 @@ import React from "react";
 class VoiceListener extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {sentences: [], sentenceInProgress: ''};
+    this.sentences = [];
+    this.inProgressStyle = {
+      color: 'red',
+    };
+    this.checkForHotWord = this.checkForHotWord.bind(this);
+  }
 
-    let SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+  checkForHotWord(){
+    let lastSentence = this.state.sentences[this.state.sentences.length -1];
+    if(lastSentence.toLowerCase().indexOf(this.props.hotWord.toLowerCase()) > -1){
+      if(typeof(this.props.onHotWord) == 'function');
+        this.props.onHotWord();
+    }
+      
+  }
+
+  componentDidMount(){
+    let me = this;
+    let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = SpeechRecognition ? new SpeechRecognition() : false;
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
+    recognition.lang = "en-GB";
+    recognition.interimResults = true;
 
     recognition.addEventListener("speechstart", event => {
       this.speaking = true;
-      console.log("speechstart");
     });
 
     recognition.addEventListener("speechend", event => {
       this.speaking = false;
-      console.log("speechend");
     });
 
     recognition.addEventListener("result", event => {
@@ -25,26 +40,41 @@ class VoiceListener extends React.Component {
         .map(result => result[0])
         .map(result => result.transcript)
         .join("");
-      console.log("result:", text);
-      this.runtimeTranscription = text;
+        if(event.results[0].isFinal){
+          me.sentences.push(text);
+          me.setState(state => ({
+            sentences: me.sentences
+          }));
+          me.props.onSentences(me.sentences);
+          me.checkForHotWord();
+        }else{
+          me.setState(state => ({
+            sentenceInProgress: text
+          }));
+        }
     });
 
     recognition.addEventListener("end", () => {
-      recognition.start(); //fuck
+      recognition.start(); 
+      me.setState(state => ({
+        sentenceInProgress: ''
+      }));
     });
 
-    console.log("i got here");
     recognition.start();
-    // recognition.addEventListener('end', () => {
-    //   if (this.runtimeTranscription !== '') {
-    //    } this.sentences.push(this.capitalizeFirstLetter(this.runtimeTranscription))
-    //     this.$emit('update:text', `${this.text}${this.sentences.slice(-1)[0]}. `)
-    //   }
-    //   this.runtimeTranscription = '';
+
   }
 
   render() {
-    return <div>Here the voice listener my cunt</div>;
+    return(
+      <p>
+        {this.state.sentences.map((value, index) => {
+          return <span>{value}. </span>
+        })}
+        <span style={this.inProgressStyle}>{this.state.sentenceInProgress}</span>
+      </p>      
+
+    );
   }
 }
 export default VoiceListener;
