@@ -59,7 +59,6 @@ class AudioFile extends React.Component {
 
     if(typeof window.stream == 'undefined'){
       window.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      alert('got stream');
     }
 
     let audioChunks = [];
