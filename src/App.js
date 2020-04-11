@@ -15,6 +15,12 @@ export default function App() {
     fontSize: '2em'
   };
 
+  var errorStyle = {
+    fontFamily: 'Source Sans Pro',
+    fontSize: '1.5em',
+    marginTop: '15vh'
+  }
+
   let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let hasSpeechRecognition = SpeechRecognition || false;
 
@@ -32,7 +38,7 @@ export default function App() {
           </div>
         </Grid>
         <Grid item xs={12} sm={6}>
-  { hasSpeechRecognition ? <AudioContainer></AudioContainer> : <div>This app only works on browsers that support continuous speech-to-text (currently Google Chrome Desktop...). Sorry.</div>}
+  { hasSpeechRecognition ? <AudioContainer></AudioContainer> : <div style={errorStyle}>This app only works on browsers that support continuous speech-to-text (currently Google Chrome Desktop...). Sorry.</div>}
         </Grid>
       </Grid>
       
