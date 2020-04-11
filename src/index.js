@@ -2,13 +2,24 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 
-navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
-  window.stream = stream;
-  const rootElement = document.getElementById("root");
+const rootElement = document.getElementById("root");
+if(!navigator.mediaDevices){
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      This app only works on browsers that allow audio recording (chrome). Sorry
     </React.StrictMode>,
     rootElement
   );
-});
+}else{
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+    window.stream = stream;
+    ReactDOM.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>,
+      rootElement
+    );
+  });
+  
+}
+

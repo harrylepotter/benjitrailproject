@@ -29,6 +29,13 @@ class AudioContainer extends React.Component {
 
     this.timer = React.createRef();
     
+    this.headerStyle = {
+      fontFamily: 'Archivo Black',
+      fontWeight: '400',
+      fontSize: '27px',
+      textAlign: 'left'
+    };
+
   }
 
   componentDidMount() {
@@ -84,6 +91,7 @@ class AudioContainer extends React.Component {
   render() {
     return (
       <div>
+        <p style={this.headerStyle}>1. Give us your name</p>
         <TextField
           id="name"
           label="Your name"
@@ -98,14 +106,17 @@ class AudioContainer extends React.Component {
           defaultValue="8"
           onChange={this.formValueChange}
         />
-        <p>Audio: Sorry, i was on mute. Can you repeat the question?</p>
+        <p style={this.headerStyle}>2. Record some Excuses</p>
+        <p>"Sorry, i was on mute. Can you repeat the question?"</p>
         <AudioFile tag={"one"} ref={this.audio1} withEffects={false} />
-        <p>Hi, can you hear me?</p>
+        <p>"Hi, can you hear me?"</p>
         <AudioFile tag={"two"} ref={this.audio2} withEffects={false} />
-        <p>Big long fuck it all</p>
+        <p>Talk about something for about 15 seconds (we'll distort it to make it sound like you've got a shit internet connection)</p>
         <AudioFile tag={"three"} ref={this.audio3} withEffects={true} />
+        <p style={this.headerStyle}>3. Click to start listening</p>
         <VoiceListener hotWord={this.state.name} onHotWord={this.handleAudioEvent} onSentences={this.handleSentences}/>
-        
+
+        <p style={this.headerStyle}>4. Dial in and walk away...</p>
         <Dialog
           open={this.state.summoned}
           keepMounted
