@@ -1,5 +1,5 @@
 # Covid Caller
-Ferris Bueller meets quarintine zoom calls. Zone-out while your voice answers questions for you.
+Ferris Bueller meets quarantine zoom calls. Zone-out while your voice answers questions for you.
 
 If you're on a conference call and perhaps not paying full attention, fire this up and put your phone next to your laptop. This transcribes the call. If your name gets called-out, it'll provide a bullshit pre-recorded answer on your behalf like "can you repeat the question?" while you try and get back up to speed with the conversation. It'll also fake a shoddy internet connection if you click on the "fuck it all" button.
 
