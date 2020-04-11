@@ -7,9 +7,10 @@ class AudioFile extends React.Component {
     super(props);
     this.state = { isRecording: false, audioUrl: null };
     this.toggleRecord = this.toggleRecord.bind(this);
-    this.initRecorder = this.initRecorder.bind(this);
+    this.initAndStartRecorder = this.initAndStartRecorder.bind(this);
     this.play = this.play.bind(this);
     this.player = null;
+    this.initialized = false;
 
     this.tremolo = new Pizzicato.Effects.Tremolo({
       speed: 6,
@@ -27,7 +28,15 @@ class AudioFile extends React.Component {
   }
 
   componentDidMount() {
-    this.initRecorder();
+    //this.initRecorder();
+    let me = this;
+
+    let storedAudio = window.localStorage.getItem(me.props.tag);
+    if(storedAudio != null){
+      me.setState(state => ({
+        audioUrl: storedAudio
+      }));
+    }
   }
 
   componentDidUpdate(){
@@ -38,7 +47,7 @@ class AudioFile extends React.Component {
     return !(this.state.audioUrl == null);
   }
 
-  async initRecorder() {
+  async initAndStartRecorder() {
     let me = this;
 
     let storedAudio = window.localStorage.getItem(me.props.tag);
@@ -46,6 +55,11 @@ class AudioFile extends React.Component {
       me.setState(state => ({
         audioUrl: storedAudio
       }));
+    }
+
+    if(typeof window.stream == 'undefined'){
+      window.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      alert('got stream');
     }
 
     let audioChunks = [];
@@ -69,20 +83,26 @@ class AudioFile extends React.Component {
           window.localStorage.setItem(me.props.tag, base64data);
       }
 
-      
-      //this.props.onAudioChange(this.state.audioUrl);
     });
 
     this.mediaRecorder.addEventListener("start", () => {
       console.log("started recording audio"); 
       audioChunks = [];
     });
+
+    this.initialized = true;
+    this.mediaRecorder.start();
   }
 
   toggleRecord() {
     console.log("toggleRecord:", this);
     if (!this.state.isRecording) {
-      this.mediaRecorder.start();
+      if(!this.initialized){
+        this.initAndStartRecorder();
+      }else{
+        this.mediaRecorder.start();
+      }
+ 
     } else {
       this.mediaRecorder.stop();
     }

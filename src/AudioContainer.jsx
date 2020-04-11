@@ -99,7 +99,7 @@ class AudioContainer extends React.Component {
   render() {
     return (
       <div>
-        <p style={this.headerStyle}>1. Give us your name</p>
+        <p style={this.headerStyle}>1. Give us your first name</p>
         <TextField
           id="name"
           label="Your name"
