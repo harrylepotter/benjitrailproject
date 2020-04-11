@@ -21,6 +21,10 @@ export default function App() {
     marginTop: '15vh'
   }
 
+  var copyleft ={
+    fontSize: '12px'
+  }
+
   let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let hasSpeechRecognition = SpeechRecognition || false;
 
@@ -35,6 +39,7 @@ export default function App() {
           <div style={headlineStyle}>
             Tired of endless zoom calls? Want to properly social distance?
             Let us do the talking for you. 
+            <p style={copyleft}>A Ben Davey Production. April 2020. <a href="https://github.com/harrylepotter/benjitrailproject">Github</a></p>
           </div>
         </Grid>
         <Grid item xs={12} sm={6}>
