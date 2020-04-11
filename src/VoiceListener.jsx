@@ -93,8 +93,11 @@ class VoiceListener extends React.Component {
     let me = this;
     if(me.state.listening)
       me.recognition.stop();
-    else
+    else{
       me.recognition.start();
+      window.scrollTo(0,9000);
+    }
+   
 
     me.setState(state => ({
         listening: !me.state.listening
