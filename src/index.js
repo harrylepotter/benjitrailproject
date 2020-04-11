@@ -13,6 +13,11 @@ const rootElement = document.getElementById("root");
 // }else{
   // navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
     // window.stream = stream;
+
+    if (location.protocol !== 'https:') {
+      location.replace(`https:${location.href.substring(location.protocol.length)}`);
+    }
+
     ReactDOM.render(
       <React.StrictMode>
         <App />
