@@ -14,8 +14,8 @@ const rootElement = document.getElementById("root");
   // navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
     // window.stream = stream;
 
-    if (location.protocol !== 'https:') {
-      location.replace(`https:${location.href.substring(location.protocol.length)}`);
+    if (window.location.protocol !== 'https:') {
+      window.location.replace(`https:${window.location.href.substring(window.location.protocol.length)}`);
     }
 
     ReactDOM.render(
