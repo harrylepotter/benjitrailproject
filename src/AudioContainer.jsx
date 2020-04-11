@@ -21,7 +21,7 @@ class AudioContainer extends React.Component {
     this.handleTimeout = this.handleTimeout.bind(this);
     this.handleSentences = this.handleSentences.bind(this);
 
-    this.state = {name : 'Ben', timeout: '8', summoned: false, last5Sentences : []};
+    this.state = {name : 'Ben', timeout: '8', summoned: false, last5Sentences : [], ready: false};
 
     this.audio1 = React.createRef();
     this.audio2 = React.createRef();
@@ -39,7 +39,15 @@ class AudioContainer extends React.Component {
   }
 
   componentDidMount() {
-
+    let me = this;
+    window.setInterval(function(){
+      if(me.audio1){
+        if(me.audio1.current.hasAudio() && me.audio2.current.hasAudio() && me.audio3.current.hasAudio())
+          me.setState(state => ({ready: true}));
+        //console.log(me.audio1.current.hasAudio());
+      }
+      
+    },200);
   }
 
   handleAudioEvent() {
@@ -114,7 +122,7 @@ class AudioContainer extends React.Component {
         <p>Talk about something for about 15 seconds (we'll distort it to make it sound like you've got a shit internet connection)</p>
         <AudioFile tag={"three"} ref={this.audio3} withEffects={true} />
         <p style={this.headerStyle}>3. Click to start listening</p>
-        <VoiceListener hotWord={this.state.name} onHotWord={this.handleAudioEvent} onSentences={this.handleSentences}/>
+        <VoiceListener readyToListen={this.state.ready} hotWord={this.state.name} onHotWord={this.handleAudioEvent} onSentences={this.handleSentences}/>
 
         <p style={this.headerStyle}>4. Dial in and walk away...</p>
         <Dialog

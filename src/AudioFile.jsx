@@ -30,6 +30,14 @@ class AudioFile extends React.Component {
     this.initRecorder();
   }
 
+  componentDidUpdate(){
+    //console.log('audiofile: component did update', this.state.audioUrl);
+  }
+
+  hasAudio(){
+    return !(this.state.audioUrl == null);
+  }
+
   async initRecorder() {
     let me = this;
 

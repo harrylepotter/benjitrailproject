@@ -13,19 +13,19 @@ class VoiceListener extends React.Component {
     this.checkForHotWord = this.checkForHotWord.bind(this);
     this.toggleListening = this.toggleListening.bind(this);
 
-    this.ttsStyle = {
-      fontFamily: 'DIN',
-      position: 'absolute',
-      top: '114px',
-      opacity: '0.1',
-      fontSize: '36px',
-      width: '50%',
-      textAlign: 'left',
-      left: '0',
-      zIndex: '0',
-      height: '78%',
-      overflowY: 'hidden'
-    }
+    // this.ttsStyle = {
+    //   fontFamily: 'DIN',
+    //   position: 'absolute',
+    //   top: '114px',
+    //   opacity: '0.1',
+    //   fontSize: '36px',
+    //   width: '50%',
+    //   textAlign: 'left',
+    //   left: '0',
+    //   zIndex: '0',
+    //   height: '78%',
+    //   overflowY: 'hidden'
+    // }
     
   }
 
@@ -39,6 +39,11 @@ class VoiceListener extends React.Component {
   }
 
   componentDidMount(){
+    var el = document.querySelector('.ttsText');
+    window.setInterval(function(){
+        el.scrollTop = el.scrollHeight;
+    }, 200);
+
     let me = this;
     let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     me.recognition = SpeechRecognition ? new SpeechRecognition() : false;
@@ -97,10 +102,17 @@ class VoiceListener extends React.Component {
   }
 
   render() {
+
+    let text = "";
+    if(!this.props.readyToListen){
+      text = "Record your excuses first..."
+    }else{
+      text = this.state.listening == false ? "Start Listening" : "Stop Listening";
+    }
     return(
       <div>
-        <Button onClick={this.toggleListening}>{this.state.listening == false ? "Start Listening" : "Stop Listening"}</Button>
-        <div className="texta" style={this.ttsStyle}>
+        <Button disabled={!this.props.readyToListen} onClick={this.toggleListening}>{text}</Button>
+        <div className="ttsText">
           {this.state.sentences.map((value, index) => {
             return <span>{value}. </span>
           })}

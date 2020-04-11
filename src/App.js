@@ -10,6 +10,11 @@ export default function App() {
     width: '80%'
   };
 
+  var headlineStyle = {
+    fontFamily: 'Source Sans Pro',
+    fontSize: '2em'
+  };
+
   let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let hasSpeechRecognition = SpeechRecognition || false;
 
@@ -21,13 +26,13 @@ export default function App() {
         <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <img style={imgStyle} src="logo2.svg"></img>
-          <div>
+          <div style={headlineStyle}>
             Tired of endless zoom calls? Want to properly social distance?
             Let us do the talking for you. 
           </div>
         </Grid>
         <Grid item xs={12} sm={6}>
-  { hasSpeechRecognition ? <AudioContainer></AudioContainer> : <div>fuck</div>}
+  { hasSpeechRecognition ? <AudioContainer></AudioContainer> : <div>This app only works on browsers that support continuous speech-to-text (currently Google Chrome Desktop...). Sorry.</div>}
         </Grid>
       </Grid>
       

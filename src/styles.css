@@ -25,9 +25,38 @@ body{
   position:relative;
 }
 
+p{
+  font-family: 'Source Sans Pro';
+}
+
 .footer{
   bottom: 0px;
   margin-bottom: 0px;
   top: auto;
   /* position: absolute; */
 }
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 768px){
+  
+  .ttsText{
+    font-family: Source Sans Pro;
+    font-weight: 900;
+    font-size: 27px;
+    opacity: 0.09;
+    position: absolute;
+    top: 12vh;
+    width: 45vw;
+    left: 2.5vw;
+    z-index: 0;
+    max-height: 80vh;
+    overflow-y: hidden;
+    text-align: left;
+  }
+  
+}
+
